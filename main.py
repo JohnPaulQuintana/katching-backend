@@ -83,6 +83,7 @@ create_default_user()
 seed_savings()
 seed_goal()
 
+# app.include_router(auth.router, prefix="/api/auth")
 app.include_router(auth.router, prefix="/api/auth")
 app.include_router(savings.router, prefix="/api/savings")
 app.include_router(goals.router, prefix="/api/goals")

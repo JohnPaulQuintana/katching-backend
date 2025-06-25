@@ -35,6 +35,11 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise HTTPException(status_code=401, detail="Invalid token")
 
 
+
+@router.post("/test", response_model=schemas.GoalOut)
+def test():
+    return {"Status": 200,"message":"Connected Successfully..."}
+
 @router.post("/login", response_model=schemas.TokenOut)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.username == form_data.username).first()
