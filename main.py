@@ -36,8 +36,8 @@ def seed_savings():
         # Historical seed
         savings_per_year = {
             2025: 1,
-            2024: 0,
-            2023: 0,
+            2024: 1,
+            2023: 1,
         }
 
         for year, count in savings_per_year.items():
@@ -54,10 +54,10 @@ def seed_savings():
         
         now = datetime.now()
         for _ in range(1):  # number of entries for current month
-            random_day = 25
+            random_day = random.randint(1, 28)
             date = datetime(now.year, now.month, random_day)
             db.add(models.Saving(
-                amount=round(random.uniform(20, 100), 2),
+                amount=round(random.uniform(20, 500), 2),
                 date=date,
                 user_id=user.id
             ))
