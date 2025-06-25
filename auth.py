@@ -38,7 +38,9 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
 @router.get("/test", response_model=schemas.GoalOut)
 def test():
-    return {"Status": 200,"message":"Connected Successfully..."}
+    return {"access_token": 'test', "token_type": "bearer", "name": "John Paul Quintana"}
+
+    # return {"Status": 200,"message":"Connected Successfully..."}
 
 @router.post("/login", response_model=schemas.TokenOut)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
