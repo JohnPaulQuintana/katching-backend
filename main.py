@@ -12,7 +12,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://192.168.100.173:5173", "https://stately-crisp-569e1b.netlify.app","https://katching.netlify.app"],
+    allow_origins=["http://192.168.100.173:5173","https://katching.netlify.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

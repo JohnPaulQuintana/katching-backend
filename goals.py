@@ -19,13 +19,18 @@ def set_goal(data: schemas.GoalBase, db: Session = Depends(get_db), user: models
 
 @router.put("/", response_model=schemas.GoalOut)
 def update_goal(data: schemas.GoalBase, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
+    print("✅ PUT called. Payload:", data)
     goal = db.query(models.Goal).filter_by(user_id=user.id).first()
+    print("🎯 Goal found:", goal)
+    
     if not goal:
         raise HTTPException(status_code=404, detail="Goal not found")
+
     goal.target_amount = data.target_amount
     db.commit()
     db.refresh(goal)
     return goal
+
 
 @router.get("/", response_model=schemas.GoalOut)
 def get_goal(db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):

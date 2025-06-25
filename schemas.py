@@ -15,7 +15,6 @@ class GoalBase(BaseModel):
 
 class GoalOut(GoalBase):
     id: int
-
     model_config = {"from_attributes": True}
 
 class TokenOut(BaseModel):
