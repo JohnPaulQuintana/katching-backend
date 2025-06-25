@@ -36,7 +36,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
 
 
-@router.post("/test", response_model=schemas.GoalOut)
+@router.get("/test", response_model=schemas.GoalOut)
 def test():
     return {"Status": 200,"message":"Connected Successfully..."}
 
