@@ -24,7 +24,7 @@ def create_default_user():
     db = SessionLocal()
     if not db.query(models.User).first():
         pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        user = models.User(name="JP QUINTANA",username="admin", password=pwd_context.hash("password123"))
+        user = models.User(name="JP QUINTANA",username="developer", password=pwd_context.hash("developer123"))
         db.add(user)
         db.commit()
     db.close()
@@ -35,9 +35,9 @@ def seed_savings():
     if user and not db.query(models.Saving).filter_by(user_id=user.id).first():
         # Historical seed
         savings_per_year = {
-            2025: 10,
-            2024: 15,
-            2023: 20,
+            2025: 1,
+            2024: 0,
+            2023: 0,
         }
 
         for year, count in savings_per_year.items():
@@ -53,11 +53,11 @@ def seed_savings():
 
         
         now = datetime.now()
-        for _ in range(5):  # number of entries for current month
-            random_day = random.randint(1, 28)
+        for _ in range(1):  # number of entries for current month
+            random_day = 25
             date = datetime(now.year, now.month, random_day)
             db.add(models.Saving(
-                amount=round(random.uniform(20, 500), 2),
+                amount=round(random.uniform(20, 100), 2),
                 date=date,
                 user_id=user.id
             ))
