@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Load .env file for local dev
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./kaching.db")
+print(f"🔍 DATABASE_URL being used: {DATABASE_URL}")
 
 # Neon requires SSL
 connect_args = {"sslmode": "require"} if "neon.tech" in DATABASE_URL else {}
