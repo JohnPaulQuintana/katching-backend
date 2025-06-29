@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 import models, schemas
 from database import SessionLocal
-from ml_utils import train_model, predict_category, generate_tags
+from ml_utils import guess_category, generate_tags
 from datetime import datetime
 
 router = APIRouter()
+
 @router.get("/expenses")
 def get_expenses():
     db: Session = SessionLocal()
@@ -29,8 +30,7 @@ def add_expense(expense: schemas.ExpenseIn):
     db: Session = SessionLocal()
     try:
         if not expense.category:
-            train_model(db)
-            expense.category = predict_category(expense.note)
+            expense.category = guess_category(expense.note)
 
         new_exp = models.Expense(
             date=expense.date,
