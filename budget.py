@@ -5,7 +5,7 @@ from database import SessionLocal
 
 router = APIRouter()
 
-@router.get("/budget", response_model=schemas.BudgetOut)
+@router.get("/", response_model=schemas.BudgetOut)
 def get_budget():
     db: Session = SessionLocal()
     try:
@@ -14,7 +14,7 @@ def get_budget():
     finally:
         db.close()
 
-@router.post("/budget", response_model=schemas.BudgetOut)
+@router.post("/", response_model=schemas.BudgetOut)
 def set_budget(b: schemas.BudgetOut):
     db: Session = SessionLocal()
     try:

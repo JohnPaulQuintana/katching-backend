@@ -8,7 +8,7 @@ import models
 
 router = APIRouter()
 
-@router.get("/insights")
+@router.get("/")
 def get_insights():
     db: Session = SessionLocal()
     try:

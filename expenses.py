@@ -7,7 +7,7 @@ from datetime import datetime
 
 router = APIRouter()
 
-@router.get("/expenses")
+@router.get("/")
 def get_expenses():
     db: Session = SessionLocal()
     try:
@@ -25,7 +25,7 @@ def get_expenses():
     finally:
         db.close()
 
-@router.post("/expenses")
+@router.post("/")
 def add_expense(expense: schemas.ExpenseIn):
     db: Session = SessionLocal()
     try:

@@ -118,6 +118,7 @@ def seed_goal():
 app.include_router(budget.router, prefix="/api/budget")
 app.include_router(expenses.router, prefix="/api/expenses")
 app.include_router(insights.router, prefix="/api/insights")
+
 app.include_router(auth.router, prefix="/api/auth")
 app.include_router(savings.router, prefix="/api/savings")
 app.include_router(goals.router, prefix="/api/goals")
