@@ -2,11 +2,9 @@ from fastapi import APIRouter
 from sqlalchemy.orm import Session
 from collections import defaultdict
 from datetime import datetime, timedelta
-import pandas as pd
 
 from database import SessionLocal
 import models
-from ml_utils import generate_tags
 
 router = APIRouter()
 
@@ -82,13 +80,20 @@ def get_insights():
         else:
             summary = f"✅ You're managing your budget well. So far you've spent ₱{total_spent:.2f}, mostly on {top[0]} (₱{top[1]:.2f}). Budget left: ₱{budget_left:.2f}."
 
-        # Trend analysis
-        df = pd.DataFrame([(e.date, e.amount) for e in expenses], columns=["date", "amount"])
-        df["date"] = pd.to_datetime(df["date"])
-        df.set_index("date", inplace=True)
-        weekly = df.resample("W").sum()
-        if len(weekly) >= 2:
-            trend = weekly["amount"].pct_change().iloc[-1]
+        # Weekly trend analysis (pure Python)
+        weekly_totals = defaultdict(float)
+        for e in expenses:
+            week_start = e.date - timedelta(days=e.date.weekday())  # Monday
+            weekly_totals[week_start] += e.amount
+
+        sorted_weeks = sorted(weekly_totals.items())
+        if len(sorted_weeks) >= 2:
+            last = sorted_weeks[-1][1]
+            prev = sorted_weeks[-2][1]
+            if prev > 0:
+                trend = (last - prev) / prev
+            else:
+                trend = 0
             if trend > 0.2:
                 trend_note = "🔺 Your spending is increasing rapidly this week."
             elif trend < -0.2:
