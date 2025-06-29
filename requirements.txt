@@ -8,3 +8,5 @@ bcrypt==3.2.2
 psycopg2-binary
 asyncpg
 python-dotenv
+scikit-learn 
+pandas

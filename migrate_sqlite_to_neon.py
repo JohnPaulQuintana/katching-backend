@@ -10,7 +10,7 @@ load_dotenv()
 
 # Paths
 SQLITE_URL = "sqlite:///./kaching.db"
-NEON_URL = os.getenv("DATABASE_URL")
+NEON_URL = "postgresql+psycopg2://neondb_owner:npg_R9JVBvXKL3HA@ep-cold-surf-a4hr81l9-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require"
 
 # Engines
 sqlite_engine = create_engine(SQLITE_URL, connect_args={"check_same_thread": False})
@@ -27,6 +27,31 @@ neon_db = NeonSession()
 Base.metadata.create_all(bind=neon_engine)
 
 try:
+     # === MIGRATE SETTINGS ===
+    settings = sqlite_db.query(models.Settings).all()
+    for s in settings:
+        neon_db.add(models.Settings(
+            id=s.id,
+            budget=s.budget
+        ))
+
+    neon_db.commit()
+    print(f"✅ Migrated {len(settings)} settings.")
+
+    # === MIGRATE EXPENSES ===
+    expenses = sqlite_db.query(models.Expense).all()
+    for e in expenses:
+        neon_db.add(models.Expense(
+            id=e.id,
+            date=e.date,
+            amount=e.amount,
+            category=e.category,
+            note=e.note
+        ))
+
+    neon_db.commit()
+    print(f"✅ Migrated {len(expenses)} expenses.")
+
     # === MIGRATE USERS ===
     users = sqlite_db.query(models.User).all()
     for user in users:

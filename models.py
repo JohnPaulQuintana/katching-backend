@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey,Date
 from datetime import datetime
 from database import Base
 
@@ -21,3 +21,16 @@ class Goal(Base):
     id = Column(Integer, primary_key=True, index=True)
     target_amount = Column(Float, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
+
+class Settings(Base):
+    __tablename__ = 'settings'
+    id = Column(Integer, primary_key=True, index=True)
+    budget = Column(Float, default=10000.0)
+
+class Expense(Base):
+    __tablename__ = 'expenses'
+    id = Column(Integer, primary_key=True, index=True)
+    date = Column(Date)
+    amount = Column(Float)
+    category = Column(String)
+    note = Column(String)
